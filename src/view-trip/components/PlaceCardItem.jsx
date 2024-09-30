@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/globalApi";
+import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GlobalApi";
 import React, { useEffect, useState } from "react";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
