@@ -23,9 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Local env files & firebase details
+# Local env files
 .env.local
-src/service/firebaseConfig.jsx
 
 # Node modules
 node_modules
