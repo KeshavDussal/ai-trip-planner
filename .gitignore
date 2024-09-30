@@ -25,7 +25,7 @@ dist-ssr
 
 # Local env files & firebase details
 .env.local
-src/service
+src/service/firebaseConfig.jsx
 
 # Node modules
 node_modules
