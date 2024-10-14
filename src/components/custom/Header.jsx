@@ -5,7 +5,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Link, useNavigation } from "react-router-dom";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import {
   Dialog,
@@ -17,7 +16,9 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 const Header = () => {
-  const user = JSON.parse(localStorage.getItem("user")) || null; // Add fallback
+  const [user, setUser] = useState(
+    () => JSON.parse(localStorage.getItem("user")) || null
+  ); // Use state and fallback
   const [openDialog, setOpenDialog] = useState(false);
 
   const login = useGoogleLogin({
@@ -38,8 +39,11 @@ const Header = () => {
       )
       .then((resp) => {
         localStorage.setItem("user", JSON.stringify(resp.data));
+        setUser(resp.data); // Update user in state
         setOpenDialog(false);
-        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("Error fetching user profile:", error);
       });
   };
 
@@ -64,9 +68,12 @@ const Header = () => {
             <Popover>
               <PopoverTrigger>
                 <img
-                  src={user?.picture}
+                  src={`${user?.picture}?t=${new Date().getTime()}`} // Add cache-busting timestamp
                   alt="Profile pic"
                   className="h-[35px] w-[35px] rounded-full"
+                  onError={(e) => {
+                    e.target.src = "/default-profile.jpg";
+                  }} // Fallback image
                 />
               </PopoverTrigger>
               <PopoverContent>
@@ -76,6 +83,7 @@ const Header = () => {
                     googleLogout();
                     localStorage.removeItem("user");
                     window.location.reload();
+                    window.location.href = "/";
                   }}
                 >
                   Logout

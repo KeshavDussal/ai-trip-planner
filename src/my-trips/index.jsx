@@ -20,16 +20,19 @@ const MyTrips = () => {
     } else {
       const q = query(
         collection(db, "AITrips"),
-        where("userEmail", "==", user?.email)
+        where("userEmail", "==", user?.email) // Filter by user email
       );
-      const querySnapshot = await getDocs(collection(db, "AITrips"));
-      setUserTrips([]);
+
+      // Use the query to get only the filtered trips
+      const querySnapshot = await getDocs(q);
+      setUserTrips([]); // Reset trips before adding filtered ones
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         setUserTrips((prevValue) => [...prevValue, doc.data()]);
       });
     }
   };
+
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 mt-10">
       <h2 className="font-bold text-3xl">My Trips</h2>
